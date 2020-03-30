@@ -41,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +55,32 @@ public class MainActivity extends AppCompatActivity {
         tbn1 = findViewById(R.id.tbn1);
         tbn3 = findViewById(R.id.tbn3);
         tbn7 = findViewById(R.id.tbn7);
+
+        tbn7.setEnabled(false);
+        //enable
+        Ed1.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(Ed1.length() > 0)
+                {
+                    tbn7.setEnabled(true);
+                }
+                else
+                {
+                    tbn7.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
 
         // tbn event
