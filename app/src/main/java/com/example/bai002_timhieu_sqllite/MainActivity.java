@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
                 TextView txt3 = convertView.findViewById(R.id.txt3);
                 User u = Userlist.get(position);
                 txt1.setText(u.getName());
-                txt2.setText(u.getTuoi());
+                txt2.setText(u.getMasv());
                 txt3.setText(u.getDiem());
                 return convertView;
             }
@@ -172,11 +172,11 @@ public class MainActivity extends AppCompatActivity {
       {
           User u = Userlist.get(position);
           String goc = "dtc010";
-          String sosanh = u.getTuoi();
+          String sosanh = u.getMasv();
           if(sosanh.equals(goc))
           {
               Ed1.setText(u.getName());
-              Ed2.setText(u.getTuoi());
+              Ed2.setText(u.getMasv());
               Ed3.setText(u.getDiem());
               idUpdate = u.getId();
           }
@@ -196,9 +196,9 @@ public class MainActivity extends AppCompatActivity {
         try
         {
             String name = Ed1.getText().toString();
-            String tuoi = Ed2.getText().toString();
+            String msv = Ed2.getText().toString();
             String diem = Ed3.getText().toString();
-            String sql = "UPDATE tbchuno SET name =  '"+name+"' , tuoi = '"+tuoi+"' , diem = '"+diem+"' WHERE id = " + idUpdate;
+            String sql = "UPDATE tbchuno SET name =  '"+name+"' , msv = '"+msv+"' , diem = '"+diem+"' WHERE id = " + idUpdate;
             db.execSQL(sql);
             Toast.makeText(this, "chung toi da sua doi thanh cong", Toast.LENGTH_SHORT).show();
         }
@@ -212,8 +212,8 @@ public class MainActivity extends AppCompatActivity {
     {
        try
        {
-           db = openOrCreateDatabase("KiemTra2.db",MODE_PRIVATE,null);
-           String sql3 = "CREATE TABLE IF NOT EXISTS tbchuno (id integer primary key autoincrement, name text ,  tuoi text , diem text )";
+           db = openOrCreateDatabase("KiemTra98.db",MODE_PRIVATE,null);
+           String sql3 = "CREATE TABLE IF NOT EXISTS tbchuno (id integer primary key autoincrement, name text ,  msv text , diem text )";
            db.execSQL(sql3);
        }
        catch (Exception e)
@@ -225,9 +225,9 @@ public class MainActivity extends AppCompatActivity {
     private void InsertTest()
     {
         String name = Ed1.getText().toString();
-        String tuoi = Ed2.getText().toString();
+        String msv = Ed2.getText().toString();
         String diem = Ed3.getText().toString();
-        String sql = " INSERT INTO tbchuno (name,tuoi,diem) VALUES ('"+name+"' , '"+tuoi+"','"+diem+"') ";
+        String sql = " INSERT INTO tbchuno (name,msv,diem) VALUES ('"+name+"' , '"+msv+"','"+diem+"') ";
         db.execSQL(sql);
     }
 
@@ -236,11 +236,11 @@ public class MainActivity extends AppCompatActivity {
       try
       {
           int id = Userlist.get(position).getId();
-          String tuois = Userlist.get(position).getTuoi();
+          String tuois = Userlist.get(position).getMasv();
           String tuois2 = "dtc01";
           if(tuois.equals(tuois2))
           {
-              String sql = "DELETE FROM tbchuno WHERE tuoi = 'dtc01' AND id = " + id;
+              String sql = "DELETE FROM tbchuno WHERE msv = 'dtc01' AND id = " + id;
               db.execSQL(sql);
               Toast.makeText(this, "bạn đã xóa thành công", Toast.LENGTH_SHORT).show();
           }
@@ -278,7 +278,7 @@ public class MainActivity extends AppCompatActivity {
             User u = new User();
             u.setId(id);
             u.setName(name);
-            u.setTuoi(tuoi);
+            u.setMasv(tuoi);
             u.setDiem(diem);
             Userlist.add(u);
             cursor.moveToNext();
@@ -300,7 +300,7 @@ public class MainActivity extends AppCompatActivity {
             User u = new User();
             u.setId(id);
             u.setName(name);
-            u.setTuoi(tuoi);
+            u.setMasv(tuoi);
             u.setDiem(diem);
             Userlist.add(u);
             cursor.moveToNext();
