@@ -32,11 +32,11 @@ public class MainActivity extends AppCompatActivity {
     private  EditText Ed2;
     private EditText Ed3;
     private Button tbn1;
-    private Button tbn2 , tbn3;
+    private Button tbn2 , tbn3 , tbn7;
     private ListView LvUser;
     private ArrayAdapter<User> adapter;
     private ArrayList<User> Userlist = new ArrayList<>();
-    int idUpdate = -1;
+    String idUpdate = "";
 
 
 
@@ -52,24 +52,40 @@ public class MainActivity extends AppCompatActivity {
         tbn2 = findViewById(R.id.tbn2);
         tbn1 = findViewById(R.id.tbn1);
         tbn3 = findViewById(R.id.tbn3);
-
+        tbn7 = findViewById(R.id.tbn7);
 
 
         // tbn event
         tbn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               if(idUpdate < 0)
-               {
-                   InsertTest();
 
-               }
-               else
-               {
-                   updaterow();
-                    idUpdate = -1;
-               }
+                   InsertTest();
                 LoadData();
+            }
+        });
+        tbn7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setMessage("Bạn muốn sửa không").setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        updaterow();
+                        LoadData();
+                    }
+                })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alẻt = builder.create();
+                alẻt.setTitle("Bạn lựa chọn gì !");
+                alẻt.show();
+
             }
         });
         tbn2.setOnClickListener(new View.OnClickListener() {
@@ -178,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
               Ed1.setText(u.getName());
               Ed2.setText(u.getMasv());
               Ed3.setText(u.getDiem());
-              idUpdate = u.getId();
+              idUpdate = u.getMasv();
           }
           else
           {
@@ -196,9 +212,8 @@ public class MainActivity extends AppCompatActivity {
         try
         {
             String name = Ed1.getText().toString();
-            String msv = Ed2.getText().toString();
             String diem = Ed3.getText().toString();
-            String sql = "UPDATE tbchuno SET name =  '"+name+"' , msv = '"+msv+"' , diem = '"+diem+"' WHERE id = " + idUpdate;
+            String sql = "UPDATE tbchuno SET name =  '"+name+"' , diem = '"+diem+"' WHERE msv = '"+idUpdate+"'";
             db.execSQL(sql);
             Toast.makeText(this, "chung toi da sua doi thanh cong", Toast.LENGTH_SHORT).show();
         }
@@ -212,8 +227,8 @@ public class MainActivity extends AppCompatActivity {
     {
        try
        {
-           db = openOrCreateDatabase("KiemTra98.db",MODE_PRIVATE,null);
-           String sql3 = "CREATE TABLE IF NOT EXISTS tbchuno (id integer primary key autoincrement, name text ,  msv text , diem text )";
+           db = openOrCreateDatabase("KiemTra90.db",MODE_PRIVATE,null);
+           String sql3 = "CREATE TABLE IF NOT EXISTS tbchuno ( name text  , diem text , msv text primary key )";
            db.execSQL(sql3);
        }
        catch (Exception e)
@@ -224,23 +239,29 @@ public class MainActivity extends AppCompatActivity {
 
     private void InsertTest()
     {
-        String name = Ed1.getText().toString();
-        String msv = Ed2.getText().toString();
-        String diem = Ed3.getText().toString();
-        String sql = " INSERT INTO tbchuno (name,msv,diem) VALUES ('"+name+"' , '"+msv+"','"+diem+"') ";
-        db.execSQL(sql);
+        try
+        {
+            String name = Ed1.getText().toString();
+            String msv = Ed2.getText().toString();
+            String diem = Ed3.getText().toString();
+            String sql = " INSERT INTO tbchuno (name,diem,msv) VALUES ('"+name+"' , '"+diem+"' , '"+msv+"') ";
+            db.execSQL(sql);
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(this, "Trùng rồi trùng rồi", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private  void DeleteDataUser(int position)
     {
       try
       {
-          int id = Userlist.get(position).getId();
           String tuois = Userlist.get(position).getMasv();
           String tuois2 = "dtc01";
           if(tuois.equals(tuois2))
           {
-              String sql = "DELETE FROM tbchuno WHERE msv = 'dtc01' AND id = " + id;
+              String sql = "DELETE FROM tbchuno WHERE msv = 'dtc01'";
               db.execSQL(sql);
               Toast.makeText(this, "bạn đã xóa thành công", Toast.LENGTH_SHORT).show();
           }
@@ -271,15 +292,13 @@ public class MainActivity extends AppCompatActivity {
         cursor.moveToFirst();
         while (!cursor.isAfterLast())
         {
-            int id = cursor.getInt(0);
-            String name = cursor.getString(1);
+            String name = cursor.getString(0);
+            String diem = cursor.getString(1);
             String tuoi = cursor.getString(2);
-            String diem = cursor.getString(3);
             User u = new User();
-            u.setId(id);
             u.setName(name);
-            u.setMasv(tuoi);
             u.setDiem(diem);
+            u.setMasv(tuoi);
             Userlist.add(u);
             cursor.moveToNext();
         }
@@ -288,20 +307,18 @@ public class MainActivity extends AppCompatActivity {
     private void showTotal()
     {
         Userlist.clear();
-        String sql2 = "SELECT * FROM tbchuno WHERE diem < 4";
+        String sql2 = "SELECT * FROM tbchuno";
         Cursor cursor = db.rawQuery(sql2 , null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast())
         {
-            int id = cursor.getInt(0);
-            String name = cursor.getString(1);
+            String name = cursor.getString(0);
+            String diem = cursor.getString(1);
             String tuoi = cursor.getString(2);
-            String diem = cursor.getString(3);
             User u = new User();
-            u.setId(id);
             u.setName(name);
-            u.setMasv(tuoi);
             u.setDiem(diem);
+            u.setMasv(tuoi);
             Userlist.add(u);
             cursor.moveToNext();
         }
