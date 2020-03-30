@@ -1,6 +1,11 @@
 package com.example.bai002_timhieu_sqllite;
 
 public class User {
+    private String name;
+    private  String masv;
+    private String diem;
+    private  int id;
+
     public String getName() {
         return name;
     }
@@ -9,26 +14,13 @@ public class User {
         this.name = name;
     }
 
-
-    public int getId() {
-        return id;
+    public String getMasv() {
+        return masv;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setMasv(String masv) {
+        this.masv = masv;
     }
-
-    public String getTuoi() {
-        return tuoi;
-    }
-
-    public void setTuoi(String tuoi) {
-        this.tuoi = tuoi;
-    }
-
-    private String name;
-    private  String tuoi;
-    private String diem;
 
     public String getDiem() {
         return diem;
@@ -38,7 +30,11 @@ public class User {
         this.diem = diem;
     }
 
-    private  int id;
+    public int getId() {
+        return id;
+    }
 
-
+    public void setId(int id) {
+        this.id = id;
+    }
 }
