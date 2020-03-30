@@ -92,12 +92,19 @@
           android:text="ADD"
           ></Button>
       <Button
+          android:layout_toRightOf="@+id/tbn3"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:id="@+id/tbn7"
+          android:text="EDIT"
+          ></Button>
+      <Button
           android:id="@+id/tbn2"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_toRightOf="@+id/tbn1"
           android:text="DELETE ALL"
-          android:layout_marginLeft="22dp"
+
           ></Button>
       <Button
           android:id="@+id/tbn3"
@@ -105,7 +112,7 @@
           android:layout_height="wrap_content"
           android:text="TOTAL"
           android:layout_toRightOf="@id/tbn2"
-          android:layout_marginLeft="22dp"
+
           ></Button>
   </RelativeLayout>
 
